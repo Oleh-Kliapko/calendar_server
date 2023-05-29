@@ -13,12 +13,11 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_SECRET_KEY,
-      callbackURL:
-        'https://wallet-server.onrender.com/api/users/google/callback', // MUST BE CHANGED!!!
+      callbackURL: 'http://localhost:5000/api/users/google/callback', // MUST BE CHANGED!!!
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const { email, displayName } = profile;
+        const { email, given_name } = profile._json;
         let user = await User.findOne({ email });
 
         if (!user) {
@@ -26,8 +25,9 @@ passport.use(
 
           user = await User.create({
             email,
-            username: displayName,
+            username: given_name,
             password: hashPassword,
+            verify: true,
           });
         }
 

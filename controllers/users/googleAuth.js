@@ -5,7 +5,7 @@ const {
 } = require('../../models');
 const { SECRET_KEY, EXPIRES_TOKEN } = process.env;
 
-const googleAuth = {
+module.exports = {
   auth: passport.authenticate('google', {
     scope: ['profile', 'email'],
   }),
@@ -15,7 +15,7 @@ const googleAuth = {
   }),
 
   successCallback: async (req, res) => {
-    const { _id: id } = req.user;
+    const { _id: id, username, email, balance } = req.user;
     const payload = {
       id,
     };
@@ -23,9 +23,17 @@ const googleAuth = {
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: EXPIRES_TOKEN });
     await User.findByIdAndUpdate(id, { token });
 
-    const redirectURL = `https://Oleh-Kliapko.github.io/wallet_front?token=${token}`; // MUST BE CHANGED!!!
-    res.redirect(redirectURL);
+    const redirectURL = 'http://localhost:3000/api/users/google/callback'; // MUST BE CHANGED!!!
+
+    return res.status(200).json({
+      data: {
+        username,
+        email,
+        balance,
+        token,
+      },
+      message: `User by email: ${email} has been logged in through Google Auth`,
+      redirectURL,
+    });
   },
 };
-
-module.exports = googleAuth;
