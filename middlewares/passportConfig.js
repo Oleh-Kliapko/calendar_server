@@ -6,14 +6,14 @@ const { nanoid } = require('nanoid');
 const {
   users: { User },
 } = require('../models');
-const { GOOGLE_CLIENT_ID, GOOGLE_SECRET_KEY } = process.env;
+const { GOOGLE_CLIENT_ID, GOOGLE_SECRET_KEY, CALLBACK_URL } = process.env;
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_SECRET_KEY,
-      callbackURL: 'http://localhost:5000/api/users/google/callback', // MUST BE CHANGED!!!
+      callbackURL: CALLBACK_URL,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
