@@ -2,24 +2,22 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const session = require('express-session');
-// const swaggerUI = require('swagger-ui-express');
-// const YAML = require('yamljs');
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
 require('dotenv').config();
 
-// const swaggerJSDocs = YAML.load('./api.yaml');
+const swaggerJSDocs = YAML.load('./api.yaml');
 const { usersRouter, categoriesRouter } = require('./routes/api');
 const { SECRET_KEY } = process.env;
 
 const app = express();
 
-const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'; // to set the log format: 'dev' - detailed information such as HTTP method, URL, status code, response time; 'short' - more concise log format
+const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 app.use(logger(formatsLogger));
-app.use(cors()); // to allow server to handle requests coming from different domains
-app.use(express.json()); // to enable the server to handle JSON payloads in request bodies: automatically parsing of request body and filling the req.body property with the JSON data
-app.use(express.static('public')); // to handle requests for static files, such as HTML, CSS, images, or client-side JavaScript files. Any files present in the public directory can be accessed by clients by specifying their paths relative to the / URL.
+app.use(cors());
+app.use(express.json());
 
-// Add the express-session middleware
 app.use(
   session({
     secret: SECRET_KEY,
@@ -28,7 +26,7 @@ app.use(
   }),
 );
 
-// app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerJSDocs));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerJSDocs));
 app.use('/api/users', usersRouter);
 app.use('/api/categories', categoriesRouter);
 

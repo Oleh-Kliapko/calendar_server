@@ -17,7 +17,10 @@ module.exports = async (req, res) => {
   }
 
   if (!user.verify) {
-    throw HttpError(401, 'Email is not verified yet');
+    throw HttpError(
+      401,
+      'Email is not verified yet. Check email box for verification',
+    );
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
