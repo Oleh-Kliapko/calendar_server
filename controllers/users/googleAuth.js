@@ -23,7 +23,7 @@ module.exports = {
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: EXPIRES_TOKEN });
     await User.findByIdAndUpdate(id, { token });
 
-    const redirectURL = 'http://localhost:3000/api/users/google/callback'; // MUST BE CHANGED!!!
+    const redirectURL = `https://my-app.com/wallet_front?token=${token}`; // MUST BE CHANGED!!!
 
     return res.status(200).json({
       data: {
@@ -32,7 +32,7 @@ module.exports = {
         balance,
         token,
       },
-      message: `User by email: ${email} has been logged in through Google Auth`,
+      message: `User with email: ${email} has been logged in through Google Auth`,
       redirectURL,
     });
   },

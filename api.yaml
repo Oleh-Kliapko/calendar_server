@@ -183,6 +183,67 @@ paths:
       security:
         - BearerAuth: []
 
+  /users/google:
+    get:
+      tags:
+        - user
+      summary: Authenticate with Google
+      responses:
+        '200':
+          description: Redirect to Google for authentication
+    get:
+      tags:
+        - user
+      summary: Google Auth Callback
+      parameters:
+        - in: query
+          name: code
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: state
+          required: true
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirect to success or failure URL
+
+  /users/google/callback:
+    post:
+      tags:
+        - user
+      summary: Successful Google Auth Callback
+      responses:
+        '200':
+          description: Successful authentication through Google
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                        example: Selena
+                      email:
+                        type: string
+                        example: example@mail.uk.com
+                      balance:
+                        type: number
+                        example: 0
+                      token:
+                        type: string
+                  message:
+                    type: string
+                    example: 'User with email: example@mail.uk.com has been logged in through Google Auth'
+                  redirectURL:
+                    type: string
+                    example: https://my-app.com/wallet_front?token=${token}
+
   # ===================================================================================================
   /categories:
     get:
