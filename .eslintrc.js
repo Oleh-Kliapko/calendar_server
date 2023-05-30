@@ -15,7 +15,6 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {
-    indent: ['error', 2],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     'comma-dangle': ['error', 'always-multiline'],

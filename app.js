@@ -7,7 +7,7 @@ const session = require('express-session');
 require('dotenv').config();
 
 // const swaggerJSDocs = YAML.load('./api.yaml');
-const { usersRouter } = require('./routes/api');
+const { usersRouter, categoriesRouter } = require('./routes/api');
 const { SECRET_KEY } = process.env;
 
 const app = express();
@@ -30,7 +30,7 @@ app.use(
 
 // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerJSDocs));
 app.use('/api/users', usersRouter);
-// app.use('/api/contacts', contactsRouter);
+app.use('/api/categories', categoriesRouter);
 
 app.use((_, res) => {
   res.status(404).json({ message: 'Not found' });
