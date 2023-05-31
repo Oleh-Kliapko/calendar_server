@@ -1,5 +1,5 @@
 module.exports = {
   usersRouter: require('./users'),
-  categoriesRouter: require('./categories'),
-  transactionsRouter: require('./transactions'),
+  reviewsRouter: require('./reviews'),
+  tasksRouter: require('./tasks'),
 };

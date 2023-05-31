@@ -68,11 +68,6 @@ const userSchema = new Schema(
       match: patterns.namePattern,
       required: [true, 'Name is required. Please provide user name'],
     },
-    balance: {
-      type: Number,
-      required: [true, 'Balance is required'],
-      default: 0,
-    },
     token: {
       type: String,
       default: '',

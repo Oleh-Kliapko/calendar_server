@@ -1,21 +1,20 @@
 openapi: 3.0.3
 info:
-  title: Wallet OpenAPI
+  title: Calendar OpenAPI
   description: |-
-    Team project "Wallet" by Swagger OpenAPI 3.0
+    Team project "Calendar" by Swagger OpenAPI 3.0
   version: 1.0.0
 servers:
-  - url: https://wallet-server-up6y.onrender.com/api
+  - url: https://calendar-server-up6y.onrender.com/api
     description: web server
   - url: http://localhost:5000/api
     description: local server
 tags:
   - name: user
-    description: Register, login, logout and others operations with User
-  - name: categories
-    description: Add and get categories for expense transactions
-  # - name: transactions
-  #   description: Operations with user's transactions
+    description: register, login, logout and others operations with User
+  - name: review
+    description: Add new review and get all reviews
+
 
 paths:
   /users/register:
@@ -114,9 +113,6 @@ paths:
                       email:
                         type: string
                         example: example@mail.uk.com
-                      balance:
-                        type: number
-                        example: 0,
                       token:
                         type: string
                   message:
@@ -177,9 +173,6 @@ paths:
                       email:
                         type: string
                         example: example@mail.uk.com
-                      balance:
-                        type: number
-                        example: 0
       security:
         - BearerAuth: []
 
@@ -232,9 +225,6 @@ paths:
                       email:
                         type: string
                         example: example@mail.uk.com
-                      balance:
-                        type: number
-                        example: 0
                       token:
                         type: string
                   message:
@@ -242,331 +232,51 @@ paths:
                     example: 'User with email: example@mail.uk.com has been logged in through Google Auth'
                   redirectURL:
                     type: string
-                    example: https://my-app.com/wallet_front?token=${token}
+                    example: https://my-app.com/calendar_front?token=${token}
 
   # ===================================================================================================
-  /categories:
+  /reviews:
     get:
       tags:
-        - categories
-      summary: Return all categories
-      description: Return all categories
-      operationId: getAllCategories
+        - review
+      summary: Get all reviews
       responses:
         '200':
-          description: successful operation
+          description: Successful response
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            _id:
-                              type: string,
-                              example: 6475df366985849b0cca1568
-                            title:
-                              type: string
-                              example: Car
-                            createdAt:
-                              type: string
-                              format: date-time
-                              example: 2023-05-30T11:34:14.219Z,
-                            updatedAt:
-                              type: string
-                              format: date-time
-                              example: 2023-05-30T11:34:14.219Z,
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
       security:
         - BearerAuth: []
 
     post:
       tags:
-        - categories
-      summary: Add new category
-      description: Add new category
-      operationId: AddCategory
+        - review
+      summary: Add a new review
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                  example: Fitness
+              $ref: '#/components/schemas/Review'
       responses:
         '201':
-          description: New category created successfully
+          description: Review added successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  title:
-                    type: string
-                    example: Fitness
-                  _id:
-                    type: string
-                    example: 6475df366985849b0cca1568
-                  createdAt:
-                    type: string
-                    format: date-time
-                  updatedAt:
-                    type: string
-                    format: date-time
+                $ref: '#/components/schemas/Review'
+        '400':
+          description: Invalid request payload
       security:
         - BearerAuth: []
 
   # ===================================================================================================
 
-  # /transactions/pagination:
-  #   get:
-  #     tags:
-  #       - transactions
-  #     summary: Return all pagination transitions
-  #     description: Return all pagination transitions by authorized User
-  #     operationId: getAllPaginationTransitions
-  #     parameters:
-  #       - $ref: '#/components/parameters/page'
-  #       - $ref: '#/components/parameters/limit'
-  #     responses:
-  #       '200':
-  #         $ref: '#/components/responses/getAllPaginationTransitions'
-  #       '401':
-  #         $ref: '#/components/responses/401'
-  #     security:
-  #       - BearerAuth: []
-
-  # /transactions:
-  #   get:
-  #     tags:
-  #       - transactions
-  #     summary: Return all transitions
-  #     description: Return all transitions by authorized User
-  #     operationId: getAllTransitions
-  #     responses:
-  #       '200':
-  #         $ref: '#/components/responses/getAllTransitions'
-  #       '401':
-  #         $ref: '#/components/responses/401'
-  #     security:
-  #       - BearerAuth: []
-
-  #   post:
-  #     tags:
-  #       - transactions
-  #     summary: Add new transaction
-  #     description: Add new contact by authorized User
-  #     operationId: addItemTransitions
-  #     requestBody:
-  #       description: The transaction to create.
-  #       required: true
-  #       content:
-  #         application/json:
-  #           schema:
-  #             $ref: '#/components/parameters/RequestBodyTransaction'
-  #     responses:
-  #       '201':
-  #         description: Successful operation, return new Transaction
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: object
-  #               properties:
-  #                 status:
-  #                   type: string
-  #                   example: success
-  #                 code:
-  #                   type: number
-  #                   example: 201
-  #                 data:
-  #                   type: object
-  #                   properties:
-  #                     result:
-  #                       type: object
-  #                       properties:
-  #                         _id:
-  #                           type: string
-  #                           example: 63d7f1e937cad57fb8bc8609
-  #                         date:
-  #                           type: string
-  #                           example: '2021-02-28T00:00:00.000Z'
-  #                         type:
-  #                           type: boolean
-  #                           example: true
-  #                         category:
-  #                           type: string
-  #                           description: category ID
-  #                           example: 63d2548b350d2f7f3413914b
-  #                         comment:
-  #                           type: string
-  #                           example: Nick comment expensive
-  #                         sum:
-  #                           type: integer
-  #                           example: 16
-  #                         balanceAfter:
-  #                           type: integer
-  #                           example: 48
-  #                         owner:
-  #                           type: string
-  #                           description: user ID
-  #                           example: 63d5655cfbdc957b26ccedfa
-  #                         createdAt:
-  #                           type: string
-  #                           format: date-time
-  #                           example: '2023-01-30T16:35:53.478Z'
-  #                         updatedAt:
-  #                           type: string
-  #                           format: date-time
-  #                           example: '2023-01-30T16:35:53.577Z'
-  #       '400':
-  #         description: invalid request body
-  #         content:
-  #           application/json:
-  #             schema:
-  #               oneOf:
-  #                 - $ref: '#/components/responses/body400/date'
-  #                 - $ref: '#/components/responses/body400/type'
-  #                 - $ref: '#/components/responses/body400/category'
-  #                 - $ref: '#/components/responses/body400/sum'
-  #       '401':
-  #         $ref: '#/components/responses/401'
-  #     security:
-  #       - BearerAuth: []
-
-  # /transactions/{transactionId}:
-  #   delete:
-  #     tags:
-  #       - transactions
-  #     summary: Delete transaction by ID
-  #     description: Delete transaction by ID
-  #     operationId: deleteItemTransitions
-  #     parameters:
-  #       - in: path
-  #         name: transactionId
-  #         schema:
-  #           type: string
-  #         required: true
-  #         description: Transaction ID that to delete
-  #     responses:
-  #       '201':
-  #         description: Successful operation, return deleted Transaction ID
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: object
-  #               properties:
-  #                 status:
-  #                   type: string
-  #                   example: success
-  #                 code:
-  #                   type: number
-  #                   example: 201
-  #                 message:
-  #                   type: string
-  #                   example: transactionId has been deleted
-  #       '401':
-  #         $ref: '#/components/responses/401'
-  #     security:
-  #       - BearerAuth: []
-
-  # /transactions/statistic:
-    get:
-      tags:
-        - transactions
-      summary: Return transactions statistic of month
-      description: Return transactions statistic of month
-      operationId: getTransactionStatistic
-      parameters:
-        - $ref: '#/components/parameters/month'
-        - $ref: '#/components/parameters/year'
-      responses:
-        '200':
-          description:
-            Successful operation, return transactions statistic of month.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: success
-                  code:
-                    type: integer
-                    example: 200
-                  data:
-                    type: object
-                    properties:
-                      transactions:
-                        type: array
-                        items:
-                          $ref: '#/components/responses/ResponseTransactionsStatistic'
-                      dateArr:
-                        type: object
-                        properties:
-                          '2022':
-                            type: array
-                            items:
-                              - type: boolean
-                                example: true
-                              - type: boolean
-                                example: false
-                              - type: boolean
-                                example: true
-                              - type: boolean
-                                example: false
-                              - type: boolean
-                                example: true
-                              - type: boolean
-                                example: true
-                              - type: boolean
-                                example: true
-                              - type: boolean
-                                example: true
-                              - type: boolean
-                                example: true
-                              - type: boolean
-                                example: true
-                          '2023':
-                            type: array
-                            items:
-                              - type: boolean
-                                example: true
-                              - type: boolean
-                                example: false
-                              - type: boolean
-                                example: false
-                              - type: boolean
-                                example: false
-                              - type: boolean
-                                example: false
-                              - type: boolean
-                                example: false
-                              - type: boolean
-                                example: false
-                              - type: boolean
-                                example: false
-                              - type: boolean
-                                example: false
-                              - type: boolean
-                                example: false
-          # links:
-          #   GetUserById:
-          #     description: get user by id description
-          #     operationId: getUser
-        '401':
-          $ref: '#/components/responses/401'
-      security:
-        - BearerAuth: []
-
+  
   # ===================================================================================================
 components:
   schemas:
@@ -582,9 +292,6 @@ components:
         password:
           type: string
           example: Ro1478
-        balance:
-          type: number
-          example: 100
         token:
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzRkNjY2MDY5N2JjYzRjM2UyYjdjNiIsImlhdCI6MTY4NTM3ODgzOSwiZXhwIjoxNjg2MjQyODM5fQ.sjZrOUHEzQjNAgaPQSmlBmkAvEyHzOg75_j7f-o-84E
@@ -596,41 +303,29 @@ components:
           example: ldfhgkfdjh3gnrwrejut58
       xml:
         name: user
-    Category:
+    Review:
       type: object
       properties:
-        title:
+        avatarURL:
           type: string
-          example: Fitness
-      xml:
-        name: category
-    # Transaction:
-    #   type: object
-    #   properties:
-    #     _id:
-    #       type: string
-    #       example: 63d66c6390792a579a81e189
-    #     date:
-    #       type: string
-    #       example: '2021-02-28T00:00:00.000Z'
-    #     type:
-    #       type: boolean
-    #       example: false
-    #     category:
-    #       type: string
-    #       example: 63d2548b350d2f7f3413914b
-    #       description: category ID
-    #     comment:
-    #       type: string
-    #       example: Any comment of owner
-    #     owner:
-    #       type: object
-    #       properties:
-    #         _id:
-    #           type: string
-    #           example: 63d5655cfbdc957b26ccedfa
-    #         name:
-    #           type: string
-    #           example: Dmytro
-    #   xml:
-    #     name: transaction
+          pattern: <urlPattern>
+          description: Avatar URL of the reviewer
+        stars:
+          type: integer
+          enum: [1, 2, 3, 4, 5]
+          description: Rating in stars (1 to 5)
+        reviewer:
+          type: string
+          maxLength: 32
+          pattern: <namePattern>
+          description: Name of the reviewer
+        comment:
+          type: string
+          minLength: 6
+          maxLength: 300
+          description: Review comment
+      required:
+        - avatarURL
+        - stars
+        - reviewer
+        - comment

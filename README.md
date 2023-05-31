@@ -1,5 +1,5 @@
-# Wallet Server
+# Server for GOIT Team Project "Calendar Goose Track"
 
-- [repository](https://github.com/Oleh-Kliapko/wallet_server)
-- [deploy server](https://wallet-server-up6y.onrender.com)
-- [swagger docs](https://wallet-server-up6y.onrender.com/api-docs)
+- [repository](https://github.com/Oleh-Kliapko/calendar_server)
+- [deploy server](https://)
+- [swagger docs](https://)
