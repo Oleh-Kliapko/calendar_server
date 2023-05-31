@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
   if (categoryTitle) {
     throw HttpError(
       409,
-      'This category has already been in database. Please choose another',
+      `Category "${title}" has already been in database. Please choose another`,
     );
   }
 

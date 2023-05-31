@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const { nanoid } = require('nanoid');
 
 const {
-  users: { User },
+  user: { User },
 } = require('../../models');
 const { HttpError, sendEmail } = require('../../helpers');
 
@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
   const purePassword = password.trim();
   const pureUsername = username.trim();
 
-  const user = await User.findOne({ pureEmail });
+  const user = await User.findOne({ email: pureEmail });
   if (user) {
     throw HttpError(
       409,

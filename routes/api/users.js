@@ -8,16 +8,12 @@ const {
   passportConfig,
 } = require('../../middlewares');
 const {
-  users: {
+  user: {
     validationEmailUser,
     validationLoginUser,
     validationRegistrationUser,
   },
 } = require('../../models');
-
-// Initialize Passport middleware
-router.use(passportConfig.initialize());
-router.use(passportConfig.session());
 
 // standard authorization routers
 router.post(
@@ -27,6 +23,10 @@ router.post(
 );
 router.post('/login', validateBody(validationLoginUser), ctrl.login);
 router.post('/login-with-token', ctrl.loginWithToken);
+
+// Initialize Passport middleware
+router.use(passportConfig.initialize());
+router.use(passportConfig.session());
 
 // GOOGLE authorization routers
 router.get('/google', googleAuth.auth);

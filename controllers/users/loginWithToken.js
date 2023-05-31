@@ -1,5 +1,5 @@
 const {
-  users: { User },
+  user: { User },
 } = require('../../models');
 const { HttpError } = require('../../helpers');
 

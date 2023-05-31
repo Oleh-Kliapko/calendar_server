@@ -1,7 +1,7 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const {
-  users: { User },
+  user: { User },
 } = require('../../models');
 const { SECRET_KEY, EXPIRES_TOKEN } = process.env;
 

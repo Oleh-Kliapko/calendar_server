@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const {
-  users: { User },
+  user: { User },
 } = require('../../models');
 const { HttpError } = require('../../helpers');
 const { SECRET_KEY, EXPIRES_TOKEN } = process.env;

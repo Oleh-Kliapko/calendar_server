@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const { nanoid } = require('nanoid');
 
 const {
-  users: { User },
+  user: { User },
 } = require('../models');
 const { GOOGLE_CLIENT_ID, GOOGLE_SECRET_KEY, CALLBACK_URL } = process.env;
 
