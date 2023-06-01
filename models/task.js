@@ -54,7 +54,7 @@ const taskSchema = new Schema(
 
 taskSchema.post('save', handleMongooseError);
 
-const Task = model('transaction', taskSchema);
+const Task = model('task', taskSchema);
 
 module.exports = {
   Task,
