@@ -283,6 +283,10 @@ components:
     User:
       type: object
       properties:
+        avatarURL:
+          type: string
+          pattern: <urlPattern>
+          description: Avatar URL of the reviewer
         email:
           type: string
           example: example@mail.uk.com
@@ -301,31 +305,26 @@ components:
         verificationToken:
           type: string
           example: ldfhgkfdjh3gnrwrejut58
-      xml:
-        name: user
+      required:
+        - email
+        - username
+        - password
     Review:
       type: object
       properties:
-        avatarURL:
-          type: string
-          pattern: <urlPattern>
-          description: Avatar URL of the reviewer
         stars:
           type: integer
           enum: [1, 2, 3, 4, 5]
           description: Rating in stars (1 to 5)
-        reviewer:
-          type: string
-          maxLength: 32
-          pattern: <namePattern>
-          description: Name of the reviewer
         comment:
           type: string
           minLength: 6
           maxLength: 300
           description: Review comment
+        owner:
+          type: string
+          description: ID of the reviewer (user)
       required:
-        - avatarURL
         - stars
-        - reviewer
         - comment
+        - owner

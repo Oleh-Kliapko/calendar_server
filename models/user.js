@@ -49,6 +49,11 @@ const validationEmailUser = Joi.object({
 // ====================================================
 const userSchema = new Schema(
   {
+    avatarURL: {
+      type: String,
+      match: patterns.urlPattern,
+      default: '',
+    },
     password: {
       type: String,
       match: patterns.passwordPattern,
@@ -67,6 +72,25 @@ const userSchema = new Schema(
       type: String,
       match: patterns.namePattern,
       required: [true, 'Name is required. Please provide user name'],
+    },
+    birthday: {
+      type: Date,
+      validate: {
+        validator: function (value) {
+          return value <= new Date();
+        },
+        message: 'Birthday should not be in the past',
+      },
+      default: Date.now(),
+    },
+    phone: {
+      type: String,
+      match: patterns.phonePattern,
+      default: '',
+    },
+    skype: {
+      type: String,
+      default: '',
     },
     token: {
       type: String,
