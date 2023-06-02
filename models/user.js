@@ -46,7 +46,7 @@ const validationEmailUser = Joi.object({
     .messages(templatesMsgJoi('email')),
 });
 
-// validation to change user
+// validation of current user
 const validationCurrentUser = Joi.object({
   avatarURL: Joi.string()
     .pattern(patterns.urlPattern)

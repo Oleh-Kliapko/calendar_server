@@ -121,6 +121,32 @@ paths:
       security:
         - BearerAuth: []
 
+  /users/update/{id}:
+    put:
+      tags:
+        - user
+      summary: Update user by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdate'
+
   /users/google:
     get:
       tags:
@@ -284,7 +310,7 @@ components:
           description: URL of the user's avatar
         email:
           type: string
-          description: User email address
+          description: User email address with at least 2 domain segments
         username:
           type: string
           description: User's username - only Latin or Cyrillic characters
@@ -335,3 +361,38 @@ components:
         - stars
         - comment
         - owner
+    UserUpdate:
+      type: object
+      properties:
+        avatarURL:
+          type: string
+          pattern: <urlPattern>
+          description: URL of the user's avatar
+        email:
+          type: string
+          description: User email address with at least 2 domain segments
+        username:
+          type: string
+          description: User's username - only Latin or Cyrillic characters
+        password:
+          type: string
+          description: User password - no less than 6 characters, at least one upperCase and one lowercase
+          example: Ro1478
+        birthday:
+          type: string
+          format: date
+          description: User's birthday
+        phone:
+          type: string
+          example: 38 (067) 409 90 67
+          description: User's phone number - pattern /^38 \(\d{3}\) \d{3} \d{2} \d{2}$/;
+        skype:
+          type: string
+          description: User's Skype ID
+      required:
+        - avatarURL
+        - email
+        - username
+        - birthday
+        - phone
+        - skype

@@ -4,8 +4,8 @@ const {
 const { HttpError } = require('../../helpers');
 
 const updateUser = async (req, res) => {
-  const { userId } = req.params;
-  const user = await User.findByIdAndUpdate(userId, req.body, {
+  const { id } = req.params;
+  const user = await User.findByIdAndUpdate(id, req.body, {
     new: true,
   });
 
@@ -13,7 +13,7 @@ const updateUser = async (req, res) => {
     throw HttpError(404, 'Not found');
   }
 
-  const { avatarURL, username, email, birthday, phone, skype, token } = user;
+  const { avatarURL, username, email, birthday, phone, skype } = user;
 
   return res.status(200).json({
     data: {
@@ -23,7 +23,6 @@ const updateUser = async (req, res) => {
       birthday,
       phone,
       skype,
-      token,
     },
   });
 };
