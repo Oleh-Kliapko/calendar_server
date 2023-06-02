@@ -5,6 +5,7 @@ const googleAuth = require('../../controllers/users/googleAuth');
 const {
   validateBody,
   authenticate,
+  isValidId,
   passportConfig,
 } = require('../../middlewares');
 const {
@@ -12,6 +13,7 @@ const {
     validationEmailUser,
     validationLoginUser,
     validationRegistrationUser,
+    validationCurrentUser,
   },
 } = require('../../models');
 
@@ -44,6 +46,15 @@ router.post(
 
 // route to get current user
 router.get('/current', authenticate, ctrl.getCurrentUser);
+
+// route to change some fields of user
+router.put(
+  '/:userId',
+  authenticate,
+  isValidId,
+  validateBody(validationCurrentUser),
+  ctrl.updateUser,
+);
 
 // logout route
 router.post('/logout', authenticate, ctrl.logout);

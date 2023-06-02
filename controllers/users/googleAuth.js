@@ -15,21 +15,24 @@ module.exports = {
   }),
 
   successCallback: async (req, res) => {
-    const { _id: id, username, email, balance } = req.user;
-    const payload = {
-      id,
-    };
+    const { _id: id } = req.user;
 
+    const payload = { id };
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: EXPIRES_TOKEN });
-    await User.findByIdAndUpdate(id, { token });
 
-    const redirectURL = `https://my-app.com/wallet_front?token=${token}`; // MUST BE CHANGED!!!
+    const user = await User.findByIdAndUpdate(id, { token });
+    const { avatarURL, username, email, birthday, phone, skype } = user;
+
+    const redirectURL = `https://oleh-kliapko.github.io/GooseTrack_front/login?token=${token}`;
 
     return res.status(200).json({
       data: {
+        avatarURL,
         username,
         email,
-        balance,
+        birthday,
+        phone,
+        skype,
         token,
       },
       message: `User with email: ${email} has been logged in through Google Auth`,

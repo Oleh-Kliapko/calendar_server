@@ -24,9 +24,13 @@ passport.use(
           const hashPassword = await bcrypt.hash(nanoid(), 10);
 
           user = await User.create({
+            avatarURL: '',
             email,
             username: given_name,
             password: hashPassword,
+            birthday: null,
+            phone: '',
+            skype: '',
             verify: true,
           });
         }

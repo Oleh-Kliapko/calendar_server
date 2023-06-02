@@ -9,13 +9,16 @@ module.exports = async (req, res) => {
 
   if (!user) throw HttpError(401, 'Please reload the page');
 
-  const { username, email, balance } = user;
+  const { avatarURL, username, email, birthday, phone, skype } = user;
 
   res.status(200).json({
-    user: {
+    data: {
+      avatarURL,
       username,
       email,
-      balance,
+      birthday,
+      phone,
+      skype,
       token,
     },
     message: `User by email: ${email} has been authorized`,

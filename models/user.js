@@ -46,6 +46,29 @@ const validationEmailUser = Joi.object({
     .messages(templatesMsgJoi('email')),
 });
 
+// validation to change user
+const validationCurrentUser = Joi.object({
+  avatarURL: Joi.string()
+    .pattern(patterns.urlPattern)
+    .required()
+    .messages(templatesMsgJoi('avatarURL')),
+  username: Joi.string()
+    .pattern(patterns.namePattern)
+    .required()
+    .messages(templatesMsgJoi('username')),
+  email: Joi.string()
+    .email({ minDomainSegments: 2 })
+    .pattern(patterns.emailPattern)
+    .required()
+    .messages(templatesMsgJoi('email')),
+  birthday: Joi.date().required().messages(templatesMsgJoi('birthday')),
+  phone: Joi.string()
+    .pattern(patterns.phonePattern)
+    .required()
+    .messages(templatesMsgJoi('phone')),
+  skype: Joi.string().required().messages(templatesMsgJoi('skype')),
+});
+
 // ====================================================
 const userSchema = new Schema(
   {
@@ -81,7 +104,9 @@ const userSchema = new Schema(
         },
         message: 'Birthday should not be in the past',
       },
-      default: Date.now(),
+      default: function () {
+        return null;
+      },
     },
     phone: {
       type: String,
@@ -116,4 +141,5 @@ module.exports = {
   validationRegistrationUser,
   validationLoginUser,
   validationEmailUser,
+  validationCurrentUser,
 };

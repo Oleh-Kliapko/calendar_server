@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Calendar OpenAPI
+  title: Goose Track Team Project
   description: |-
-    Team project "Calendar" by Swagger OpenAPI 3.0
+    Team project "Goose Track" by Swagger OpenAPI 3.0
   version: 1.0.0
 servers:
   - url: https://calendar-server-up6y.onrender.com/api
@@ -15,17 +15,14 @@ tags:
   - name: review
     description: Add new review and get all reviews
 
-
 paths:
   /users/register:
     post:
       tags:
         - user
-      summary: Register user
-      description: Register user with verify and send him email for verify
-      operationId: registerUser
+      summary: Register a new user
       requestBody:
-        description: Registration
+        required: true
         content:
           application/json:
             schema:
@@ -47,28 +44,11 @@ paths:
                 - password
       responses:
         '201':
-          description: successful operation, user added
+          description: User registered successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      _id:
-                        type: string
-                        example: 6474d6660697bcc4c3e2b7c6
-                      email:
-                        type: string
-                        example: example@mail.uk.com
-                      name:
-                        type: string
-                        example: Selena
-                  message:
-                    type: string
-                    example:
-                      'User with email: example@mail.uk.com has been created'
+                $ref: '#/components/schemas/User'
         '409':
           description: 'Email has already registered'
 
@@ -77,10 +57,8 @@ paths:
       tags:
         - user
       summary: Login user
-      description: ''
-      operationId: loginUser
       requestBody:
-        description: Authorization
+        required: true
         content:
           application/json:
             schema:
@@ -98,27 +76,11 @@ paths:
                 - password
       responses:
         '200':
-          description: successful operation
+          description: User login successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      username:
-                        type: string
-                        example: 'Selena'
-                      email:
-                        type: string
-                        example: example@mail.uk.com
-                      token:
-                        type: string
-                  message:
-                    type: string
-                    example:
-                      'User with email: example@mail.uk.com has been logged in'
+                $ref: '#/components/schemas/User'
         '401':
           description:
             'User is not found / Email is not verified / Password is incorrect'
@@ -128,8 +90,6 @@ paths:
       tags:
         - user
       summary: Logout user
-      description: ''
-      operationId: logoutUser
       responses:
         '204':
           description: successful operation
@@ -151,28 +111,13 @@ paths:
       tags:
         - user
       summary: Get user by token
-      description: ''
-      operationId: getUserByToken
       responses:
         '200':
-          description: successful operation
+          description: User login successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                        example: 6474d6660697bcc4c3e2b7c6
-                      username:
-                        type: string
-                        example: Selena
-                      email:
-                        type: string
-                        example: example@mail.uk.com
+                $ref: '#/components/schemas/User'
       security:
         - BearerAuth: []
 
@@ -209,31 +154,81 @@ paths:
         - user
       summary: Successful Google Auth Callback
       responses:
+          '200':
+            description: User login successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        avatarURL:
+                          type: string
+                          description: URL of the user's avatar
+                        username:
+                          type: string
+                          description: User's username
+                        email:
+                          type: string
+                          description: User email address
+                        birthday:
+                          type: string
+                          format: date
+                          description: User's birthday
+                        phone:
+                          type: string
+                          description: User's phone number
+                        skype:
+                          type: string
+                          description: User's Skype ID
+                        token:
+                          type: string
+                          description: User's token
+                    message:
+                      type: string
+                      description: Success message
+                      example: example@mail.uk.com has been logged in through Google Auth
+                    redirectURL:
+                      type: string
+                      description: URL for redirecting the user
+                      example: 'https://oleh-kliapko.github.io/GooseTrack_front/login?token=${token}'
+
+  /users/verify:
+    post:
+      tags:
+        - user
+      summary: Send Verification Email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: User email address
+              required:
+                - email
+      responses:
         '200':
-          description: Successful authentication through Google
+          description: Verification email sent successfully
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  data:
-                    type: object
-                    properties:
-                      username:
-                        type: string
-                        example: Selena
-                      email:
-                        type: string
-                        example: example@mail.uk.com
-                      token:
-                        type: string
                   message:
                     type: string
-                    example: 'User with email: example@mail.uk.com has been logged in through Google Auth'
-                  redirectURL:
-                    type: string
-                    example: https://my-app.com/calendar_front?token=${token}
-
+                    example: Verification email sent to example@mail.uk.com
+        '400':
+          description: Verification has already been passed
+        '404':
+          description: User not found
+  
   # ===================================================================================================
   /reviews:
     get:
@@ -286,25 +281,37 @@ components:
         avatarURL:
           type: string
           pattern: <urlPattern>
-          description: Avatar URL of the reviewer
+          description: URL of the user's avatar
         email:
           type: string
-          example: example@mail.uk.com
+          description: User email address
         username:
           type: string
-          example: Selena
+          description: User's username - only Latin or Cyrillic characters
         password:
           type: string
+          description: User password - no less than 6 characters, at least one upperCase and one lowercase
           example: Ro1478
+        birthday:
+          type: string
+          format: date
+          description: User's birthday
+        phone:
+          type: string
+          example: 38 (067) 409 90 67
+          description: User's phone number - pattern /^38 \(\d{3}\) \d{3} \d{2} \d{2}$/;
+        skype:
+          type: string
+          description: User's Skype ID
         token:
           type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzRkNjY2MDY5N2JjYzRjM2UyYjdjNiIsImlhdCI6MTY4NTM3ODgzOSwiZXhwIjoxNjg2MjQyODM5fQ.sjZrOUHEzQjNAgaPQSmlBmkAvEyHzOg75_j7f-o-84E
-        verify:
-          type: boolean
-          example: false
-        verificationToken:
-          type: string
-          example: ldfhgkfdjh3gnrwrejut58
+          description: User's token
+        # verify:
+        #   type: boolean
+        #   description: Indicates if the user is verified
+        # verificationToken:
+        #   type: string
+        #   description: User's verification token
       required:
         - email
         - username

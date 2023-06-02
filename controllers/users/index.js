@@ -8,5 +8,6 @@ module.exports = {
   loginWithToken: ctrlWrapper(require('./loginWithToken')),
   getCurrentUser: ctrlWrapper(require('./getCurrentUser')),
   logout: ctrlWrapper(require('./logout')),
+  updateUser: ctrlWrapper(require('./updateUser')),
   // googleAuth: ctrlWrapper(require('./googleAuth')),
 };
