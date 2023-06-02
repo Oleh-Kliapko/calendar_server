@@ -5,7 +5,7 @@ info:
     Team project "Goose Track" by Swagger OpenAPI 3.0
   version: 1.0.0
 servers:
-  - url: https://calendar-server-up6y.onrender.com/api
+  - url: https://calendar-server-g3h0.onrender.com/api
     description: web server
   - url: http://localhost:5000/api
     description: local server
