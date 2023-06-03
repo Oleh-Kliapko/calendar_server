@@ -2,12 +2,19 @@ const {
   review: { Review },
 } = require('../../models');
 
-module.exports = async (_, res) => {
-  const review = await Review.find({});
+module.exports = async (req, res) => {
+  const { _id: owner } = req.user;
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
+
+  const reviews = await Review.find({ owner }, '-updatedAt', {
+    skip,
+    limit,
+  });
 
   res.status(200).json({
     data: {
-      result: review,
+      reviews,
     },
   });
 };
