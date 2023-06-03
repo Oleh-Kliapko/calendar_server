@@ -498,7 +498,44 @@ paths:
                         type: string
                         format: date-time
                         description: Time of comment creating 
+      security:
+        - BearerAuth: []
 
+    delete:
+      tags:
+        - review
+      summary: Delete a review by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the review to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Review was deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Review by ID:647b12d0a4286b7e663ecfea was deleted"
+        '404':
+          description: Review not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Review not found"
+      security:
+        - BearerAuth: []
+        
   # ===================================================================================================
 
   

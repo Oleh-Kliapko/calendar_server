@@ -9,9 +9,11 @@ const {
 const router = express.Router();
 
 router.get('/', ctrl.getAllReviews);
+
 router.post('/', authenticate, validateBody(validationReview), ctrl.addReview);
 
 router.get('/own', authenticate, ctrl.getOwnReviews);
+
 router.put(
   '/own/:id',
   authenticate,
@@ -19,5 +21,7 @@ router.put(
   validateBody(validationReview),
   ctrl.updateReview,
 );
+
+router.delete('/own/:id', authenticate, isValidId, ctrl.deleteReview);
 
 module.exports = router;

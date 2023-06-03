@@ -5,4 +5,5 @@ module.exports = {
   getOwnReviews: ctrlWrapper(require('./getOwnReviews')),
   addReview: ctrlWrapper(require('./addReview')),
   updateReview: ctrlWrapper(require('./updateReview')),
+  deleteReview: ctrlWrapper(require('./deleteReview')),
 };
