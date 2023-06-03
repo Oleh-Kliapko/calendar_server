@@ -16,7 +16,9 @@ module.exports = async (req, res) => {
     verificationToken: '',
   });
 
-  res.status(200).json({
-    message: 'Verification successful',
-  });
+  res.redirect('https://oleh-kliapko.github.io/GooseTrack_front/login');
+
+  // res.status(200).json({
+  //   message: 'Verification successful',
+  // });
 };

@@ -1,53 +1,90 @@
 const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 
-const { handleMongooseError } = require('../helpers');
+const priorityEnum = ['low', 'medium', 'high'];
+const categoryEnum = ['to-do', 'in-progress', 'done'];
+
+const {
+  handleMongooseError,
+  patterns,
+  templatesMsgJoi,
+} = require('../helpers');
 
 const validationAddTask = Joi.object({
-  // date: Joi.date().required(),
-  // type: Joi.boolean().required(),
-  // category: Joi.string(),
-  // comment: Joi.string().empty(''),
-  // sum: Joi.number().min(0.01).required(),
-  // balanceAfter: Joi.number(),
+  title: Joi.string().max(250).required().messages(templatesMsgJoi('title')),
+  start: Joi.string()
+    .pattern(patterns.timePattern)
+    .required()
+    .messages(templatesMsgJoi('start')),
+  end: Joi.string()
+    .pattern(patterns.timePattern)
+    .custom((value, helpers) => {
+      const start = helpers.prefs.context.start;
+      if (value <= start) {
+        return helpers.message('End time should be greater than start time');
+      }
+      return value;
+    })
+    .required()
+    .messages(templatesMsgJoi('end')),
+  priority: Joi.string()
+    .valid(...priorityEnum)
+    .required()
+    .messages(templatesMsgJoi('priority')),
+  date: Joi.string()
+    .pattern(patterns.datePattern)
+    .required()
+    .messages(templatesMsgJoi('date')),
+  category: Joi.string()
+    .valid(...categoryEnum)
+    .required()
+    .messages(templatesMsgJoi('category')),
 });
 
 // ====================================================
 const taskSchema = new Schema(
   {
-    // date: {
-    //   type: Date,
-    //   required: [true, 'Date is required'],
-    // },
-    // type: {
-    //   type: Boolean,
-    //   required: [true, 'Type is required'],
-    // },
-    // category: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'category',
-    //   required: false,
-    // },
-    // comment: {
-    //   type: String,
-    //   default: '',
-    // },
-    // sum: {
-    //   type: Number,
-    //   default: 0,
-    //   minimum: 0.01,
-    //   required: [true, 'Sum is required'],
-    // },
-    // balanceAfter: {
-    //   type: Number,
-    //   minimum: 0,
-    //   required: true,
-    // },
-    // owner: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'user',
-    //   required: true,
-    // },
+    title: {
+      type: String,
+      maxlength: 250,
+      required: [true, 'Title is required'],
+    },
+    start: {
+      type: String,
+      match: patterns.timePattern,
+      required: [true, 'Start of task is required'],
+    },
+    end: {
+      type: String,
+      match: patterns.timePattern,
+      required: [true, 'End of task is required'],
+      validate: {
+        validator: function (value) {
+          const start = this.start;
+          return value > start;
+        },
+        message: 'End time should be greater than start time',
+      },
+    },
+    priority: {
+      type: String,
+      enum: priorityEnum,
+      required: [true, 'Priority of task is required'],
+    },
+    date: {
+      type: Date,
+      match: [patterns.datePattern, 'Invalid date format, use YYYY-MM-DD'],
+    },
+    category: {
+      type: String,
+      enum: categoryEnum,
+      required: [true, 'Category of task is required'],
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true },
 );

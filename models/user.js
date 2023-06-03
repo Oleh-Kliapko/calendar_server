@@ -11,6 +11,7 @@ const {
 const validationRegistrationUser = Joi.object({
   username: Joi.string()
     .pattern(patterns.namePattern)
+    .max(32)
     .required()
     .messages(templatesMsgJoi('username')),
   password: Joi.string()
@@ -54,6 +55,7 @@ const validationCurrentUser = Joi.object({
     .messages(templatesMsgJoi('avatarURL')),
   username: Joi.string()
     .pattern(patterns.namePattern)
+    .max(32)
     .required()
     .messages(templatesMsgJoi('username')),
   email: Joi.string()
@@ -66,7 +68,7 @@ const validationCurrentUser = Joi.object({
     .pattern(patterns.phonePattern)
     .required()
     .messages(templatesMsgJoi('phone')),
-  skype: Joi.string().required().messages(templatesMsgJoi('skype')),
+  skype: Joi.string().max(16).required().messages(templatesMsgJoi('skype')),
 });
 
 // ====================================================
@@ -94,6 +96,7 @@ const userSchema = new Schema(
     username: {
       type: String,
       match: patterns.namePattern,
+      maxlength: 32,
       required: [true, 'Name is required. Please provide user name'],
     },
     birthday: {
@@ -115,6 +118,7 @@ const userSchema = new Schema(
     },
     skype: {
       type: String,
+      maxlength: 16,
       default: '',
     },
     token: {
