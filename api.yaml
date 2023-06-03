@@ -48,7 +48,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: user ID from Mongo DB
+                      email:
+                        type: string
+                      username:
+                        type: string
         '409':
           description: 'Email has already registered'
 
@@ -69,18 +80,40 @@ paths:
                   example: example@mail.uk.com
                 password:
                   type: string
-                  format: password
                   example: Ro134908
               required:
                 - email
                 - password
       responses:
         '200':
-          description: User login successfully
+          description: User registered successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      avatarURL:
+                        type: string
+                        example: ""
+                      email:
+                        type: string
+                      username:
+                        type: string
+                      birthday:
+                        type: string
+                        example: null
+                      phone:
+                        type: string
+                        example: ""
+                      skype:
+                        type: string
+                        example: ""
+                      token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2EyYWVkNzJlZmI3M2I5MzM0ZDNkMiIsImlhdCI6MTY4NTcyODA3NiwiZXhwIjoxNjg2NTkyMDc2fQ.wMinCoY8gM4Pgu7tCR0lQ557SEubm58K7XYtsNa9tc8
         '401':
           description:
             'User is not found / Email is not verified / Password is incorrect'
@@ -113,11 +146,37 @@ paths:
       summary: Get user by token
       responses:
         '200':
-          description: User login successfully
+          description: User was gotten successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "647a2aed72efb73b9334d3d2"
+                      avatarURL:
+                        type: string
+                        example: "http://my-avatar.com/23456"
+                      email:
+                        type: string
+                      username:
+                        type: string
+                      birthday:
+                        type: string
+                        example: 1977-06-10T00:00:00.000Z
+                      phone:
+                        type: string
+                        example: "38 (067) 111 17 11"
+                      skype:
+                        type: string
+                        example: "(067) 111 17 11"
+                      token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2EyYWVkNzJlZmI3M2I5MzM0ZDNkMiIsImlhdCI6MTY4NTcyODA3NiwiZXhwIjoxNjg2NTkyMDc2fQ.wMinCoY8gM4Pgu7tCR0lQ557SEubm58K7XYtsNa9tc8
       security:
         - BearerAuth: []
 
@@ -141,11 +200,36 @@ paths:
               $ref: '#/components/schemas/UserUpdate'
       responses:
         '200':
-          description: User updated successfully
+          description: User was gotten successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserUpdate'
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      avatarURL:
+                        type: string
+                        example: "http://my-avatar.com/23456"
+                      email:
+                        type: string
+                      username:
+                        type: string
+                      birthday:
+                        type: string
+                        example: 1977-06-10T00:00:00.000Z
+                      phone:
+                        type: string
+                        example: "38 (067) 111 17 11"
+                      skype:
+                        type: string
+                        example: "(067) 111 17 11"
+                      token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2EyYWVkNzJlZmI3M2I5MzM0ZDNkMiIsImlhdCI6MTY4NTcyODA3NiwiZXhwIjoxNjg2NTkyMDc2fQ.wMinCoY8gM4Pgu7tCR0lQ557SEubm58K7XYtsNa9tc8
+      security:
+        - BearerAuth: []
 
   /users/google:
     get:
@@ -282,14 +366,42 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Review'
+              type: object
+              properties:
+                stars:
+                  type: number
+                  enum: [1, 2, 3, 4, 5]
+                comment:
+                  type: string
+                  minLength: 6
+                  maxLength: 300
+              required:
+                - stars
+                - comment
       responses:
         '201':
           description: Review added successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Review'
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      stars:
+                        type: number
+                        description: Rating in stars (1 to 5)
+                      comment:
+                        type: string
+                        description: Review comment
+                      owner:
+                        type: string
+                        description: ID of the reviewer (user)
+                      createdAt:
+                        type: string
+                        format: date-time
+                        description: Time of comment creating 
         '400':
           description: Invalid request payload
       security:
@@ -332,12 +444,12 @@ components:
         token:
           type: string
           description: User's token
-        # verify:
-        #   type: boolean
-        #   description: Indicates if the user is verified
-        # verificationToken:
-        #   type: string
-        #   description: User's verification token
+        verify:
+          type: boolean
+          description: Indicates if the user is verified
+        verificationToken:
+          type: string
+          description: User's verification token
       required:
         - email
         - username
@@ -360,7 +472,6 @@ components:
       required:
         - stars
         - comment
-        - owner
     UserUpdate:
       type: object
       properties:

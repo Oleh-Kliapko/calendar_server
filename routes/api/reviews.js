@@ -8,7 +8,7 @@ const {
 
 const router = express.Router();
 
-router.get('/', authenticate, ctrl.getAllReviews);
+router.get('/', ctrl.getAllReviews);
 router.post('/', authenticate, validateBody(validationReview), ctrl.addReview);
 
 module.exports = router;

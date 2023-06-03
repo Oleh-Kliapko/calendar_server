@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 
-const { patterns, templatesMsgJoi } = require('../helpers');
+const { templatesMsgJoi, handleMongooseError } = require('../helpers');
 
 const validationReview = Joi.object({
   stars: Joi.number()
@@ -13,11 +13,6 @@ const validationReview = Joi.object({
     .max(300)
     .required()
     .messages(templatesMsgJoi('comment')),
-  owner: Joi.string()
-    .pattern(patterns.namePattern)
-    .max(32)
-    .required()
-    .messages(templatesMsgJoi('reviewer')),
 });
 
 const reviewSchema = new Schema(
@@ -36,12 +31,13 @@ const reviewSchema = new Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'user',
-      required: [true, 'Reviewer is required'],
+      required: [true, 'User is required'],
     },
   },
   { versionKey: false, timestamps: true },
 );
 
+reviewSchema.post('save', handleMongooseError);
 const Review = model('review', reviewSchema);
 
 module.exports = {
