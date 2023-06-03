@@ -447,6 +447,58 @@ paths:
                 $ref: '#/components/schemas/GetAllReviewsResponse'
       security:
         - BearerAuth: []
+
+  /reviews/own/{id}:
+    put:
+      tags:
+        - review
+      summary: Update a review by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the review to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stars:
+                  type: number
+                  enum: [1, 2, 3, 4, 5]
+                comment:
+                  type: string
+                  minLength: 6
+                  maxLength: 300
+      responses:
+        '200':
+          description: Review updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      stars:
+                        type: number
+                        description: Rating in stars (1 to 5)
+                      comment:
+                        type: string
+                        description: Review comment
+                      owner:
+                        type: string
+                        description: ID of the reviewer (user)
+                      createdAt:
+                        type: string
+                        format: date-time
+                        description: Time of comment creating 
+
   # ===================================================================================================
 
   

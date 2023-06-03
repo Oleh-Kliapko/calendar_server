@@ -4,6 +4,10 @@ const {
 const { HttpError } = require('../../helpers');
 
 const updateUser = async (req, res) => {
+  if (!req.body) {
+    throw HttpError(400, 'Missing body of request');
+  }
+
   const { id } = req.params;
   const user = await User.findByIdAndUpdate(id, req.body, {
     new: true,
