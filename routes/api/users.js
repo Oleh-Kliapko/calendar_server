@@ -49,7 +49,7 @@ router.post(
 router.get('/current', authenticate, ctrl.getCurrentUser);
 
 // route to change some fields of user
-router.put(
+router.patch(
   '/update/:id',
   authenticate,
   isValidId,

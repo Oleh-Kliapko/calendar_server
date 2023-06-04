@@ -3,7 +3,7 @@ const express = require('express');
 const ctrl = require('../../controllers/reviews');
 const { authenticate, validateBody, isValidId } = require('../../middlewares');
 const {
-  review: { validationReview },
+  review: { validationReview, validationUpdateReview },
 } = require('../../models');
 
 const router = express.Router();
@@ -14,11 +14,11 @@ router.post('/', authenticate, validateBody(validationReview), ctrl.addReview);
 
 router.get('/own', authenticate, ctrl.getOwnReviews);
 
-router.put(
+router.patch(
   '/own/:id',
   authenticate,
   isValidId,
-  validateBody(validationReview),
+  validateBody(validationUpdateReview),
   ctrl.updateReview,
 );
 

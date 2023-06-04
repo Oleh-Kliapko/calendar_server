@@ -51,7 +51,6 @@ const validationEmailUser = Joi.object({
 const validationCurrentUser = Joi.object({
   avatarURL: Joi.string()
     .pattern(patterns.urlPattern)
-    .required()
     .messages(templatesMsgJoi('avatarURL')),
   username: Joi.string()
     .pattern(patterns.namePattern)
@@ -63,12 +62,11 @@ const validationCurrentUser = Joi.object({
     .pattern(patterns.emailPattern)
     .required()
     .messages(templatesMsgJoi('email')),
-  birthday: Joi.date().required().messages(templatesMsgJoi('birthday')),
+  birthday: Joi.date().messages(templatesMsgJoi('birthday')),
   phone: Joi.string()
     .pattern(patterns.phonePattern)
-    .required()
     .messages(templatesMsgJoi('phone')),
-  skype: Joi.string().max(16).required().messages(templatesMsgJoi('skype')),
+  skype: Joi.string().max(16).messages(templatesMsgJoi('skype')),
 });
 
 // ====================================================

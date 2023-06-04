@@ -17,8 +17,4 @@ module.exports = async (req, res) => {
   });
 
   res.redirect('https://oleh-kliapko.github.io/GooseTrack_front/login');
-
-  // res.status(200).json({
-  //   message: 'Verification successful',
-  // });
 };

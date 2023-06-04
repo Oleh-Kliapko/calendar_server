@@ -18,13 +18,6 @@ const validationAddTask = Joi.object({
     .messages(templatesMsgJoi('start')),
   end: Joi.string()
     .pattern(patterns.timePattern)
-    .custom((value, helpers) => {
-      const start = helpers.prefs.context.start;
-      if (value <= start) {
-        return helpers.message('End time should be greater than start time');
-      }
-      return value;
-    })
     .required()
     .messages(templatesMsgJoi('end')),
   priority: Joi.string()
@@ -38,6 +31,25 @@ const validationAddTask = Joi.object({
   category: Joi.string()
     .valid(...categoryEnum)
     .required()
+    .messages(templatesMsgJoi('category')),
+});
+
+const validationUpdateTask = Joi.object({
+  title: Joi.string().max(250).messages(templatesMsgJoi('title')),
+  start: Joi.string()
+    .pattern(patterns.timePattern)
+    .messages(templatesMsgJoi('start')),
+  end: Joi.string()
+    .pattern(patterns.timePattern)
+    .messages(templatesMsgJoi('end')),
+  priority: Joi.string()
+    .valid(...priorityEnum)
+    .messages(templatesMsgJoi('priority')),
+  date: Joi.string()
+    .pattern(patterns.datePattern)
+    .messages(templatesMsgJoi('date')),
+  category: Joi.string()
+    .valid(...categoryEnum)
     .messages(templatesMsgJoi('category')),
 });
 
@@ -96,4 +108,5 @@ const Task = model('task', taskSchema);
 module.exports = {
   Task,
   validationAddTask,
+  validationUpdateTask,
 };
