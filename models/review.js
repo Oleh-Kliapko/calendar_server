@@ -15,6 +15,11 @@ const validationReview = Joi.object({
     .messages(templatesMsgJoi('comment')),
 });
 
+const validationUpdateReview = Joi.object({
+  stars: Joi.number().valid(1, 2, 3, 4, 5).messages(templatesMsgJoi('stars')),
+  comment: Joi.string().min(6).max(300).messages(templatesMsgJoi('comment')),
+});
+
 const reviewSchema = new Schema(
   {
     stars: {
@@ -43,4 +48,5 @@ const Review = model('review', reviewSchema);
 module.exports = {
   Review,
   validationReview,
+  validationUpdateReview,
 };

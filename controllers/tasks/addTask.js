@@ -8,8 +8,10 @@ module.exports = async (req, res) => {
   const task = await Task.create({ ...req.body, owner: _id });
   const { title, start, end, priority, date, category, owner, createdAt } =
     task;
+
   return res.status(201).json({
     data: {
+      id: task._id,
       title,
       start,
       end,
@@ -19,6 +21,6 @@ module.exports = async (req, res) => {
       owner,
       createdAt,
     },
-    message: `Task by User: ${owner} has been created`,
+    message: `Task ID "${task._id}" of User with ID "${owner}" has been created`,
   });
 };
