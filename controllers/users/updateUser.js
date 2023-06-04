@@ -1,34 +1,41 @@
 const {
   user: { User },
 } = require('../../models');
+
 const { HttpError } = require('../../helpers');
 
-const updateUser = async (req, res) => {
-  if (!req.body) {
-    throw HttpError(400, 'Missing body of request');
+const update = async (req, res) => {
+  const { id } = req.user;
+  const bodyParam = req.body;
+
+  let updateParam = { ...bodyParam };
+  console.log(updateParam);
+
+  if (req.file) {
+    const { path: avatarURL } = req.file;
+    updateParam = { avatarURL, ...bodyParam };
+    console.log(updateParam);
   }
 
-  const { id } = req.params;
-  const user = await User.findByIdAndUpdate(id, req.body, {
-    new: true,
-  });
+  if (!updateParam) throw new HttpError({ message: 'Missing field' });
 
-  if (!user) {
-    throw HttpError(404, 'Not found');
-  }
+  const user = await User.findByIdAndUpdate(id, updateParam);
+  console.log(user);
+  if (!user) throw new HttpError('User not found');
 
-  const { avatarURL, username, email, birthday, phone, skype } = user;
-
-  return res.status(200).json({
-    data: {
-      avatarURL,
+  const { username, email, phone, avatarURL, skype, birthday } = user;
+  res.json({
+    status: 'success',
+    message: 'User updated',
+    user: {
       username,
       email,
-      birthday,
       phone,
+      avatarURL,
       skype,
+      birthday,
     },
   });
 };
 
-module.exports = updateUser;
+module.exports = update;
