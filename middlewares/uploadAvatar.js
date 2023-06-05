@@ -1,23 +1,41 @@
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
-require('dotenv').config();
+
+const { HttpError } = require('../helpers');
+
+const { CLOUDINARY_NAME, CLOUDINARY_KEY, CLOUDINARY_SECRET } = process.env;
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET,
+  cloud_name: CLOUDINARY_NAME,
+  api_key: CLOUDINARY_KEY,
+  api_secret: CLOUDINARY_SECRET,
 });
 
+const allowedFormats = ['jpg', 'jpeg', 'png'];
+
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+  cloudinary,
   folder: 'avatarURL',
-  allowedFormats: ['jpg', 'png'],
+  allowedFormats,
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
 });
 
-const uploadCloud = multer({ storage });
+const uploadCloud = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (!allowedFormats.includes(file.mimetype.split('/')[1])) {
+      cb(
+        new Error(
+          'Invalid avatar file format. Only JPG, JPEG, PNG files are allowed',
+        ),
+      );
+    } else {
+      cb(null, true);
+    }
+  },
+});
 
 module.exports = uploadCloud;

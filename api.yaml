@@ -180,18 +180,11 @@ paths:
       security:
         - BearerAuth: []
 
-  /users/update/{id}:
+  /users/update/:
     patch:
       tags:
         - user
-      summary: Update user by ID
-      parameters:
-        - name: id
-          in: path
-          description: ID of the user to update
-          required: true
-          schema:
-            type: string
+      summary: Update user
       requestBody:
         required: true
         content:
@@ -211,7 +204,7 @@ paths:
                     properties:
                       avatarURL:
                         type: string
-                        example: "http://my-avatar.com/23456"
+                        example: "https://res.cloudinary.com/dfxe5fcku/image/upload/v1685951126/avatar.jpg"
                       email:
                         type: string
                       username:
@@ -225,9 +218,9 @@ paths:
                       skype:
                         type: string
                         example: "(067) 111 17 11"
-                      token:
-                        type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2EyYWVkNzJlZmI3M2I5MzM0ZDNkMiIsImlhdCI6MTY4NTcyODA3NiwiZXhwIjoxNjg2NTkyMDc2fQ.wMinCoY8gM4Pgu7tCR0lQ557SEubm58K7XYtsNa9tc8
+                  message: 
+                    type: string
+                    example: "User with ID: 647a2aed72efb73b9334d3d2 updated"
       security:
         - BearerAuth: []
 
@@ -850,8 +843,8 @@ components:
       properties:
         avatarURL:
           type: string
-          pattern: <urlPattern>
-          description: URL of the user's avatar
+          pattern: <file in format jpg/jpeg/png>
+          description: File in formats JPG, JPEG, PNG of the user's avatar
         email:
           type: string
           description: User email address with at least 2 domain segments

@@ -6,28 +6,25 @@ const { HttpError } = require('../../helpers');
 
 const update = async (req, res) => {
   const { id } = req.user;
-  const bodyParam = req.body;
 
-  let updateParam = { ...bodyParam };
-  console.log(updateParam);
+  if (!req.body) throw new HttpError({ message: 'Missing field' });
 
-  if (req.file) {
-    const { path: avatarURL } = req.file;
-    updateParam = { avatarURL, ...bodyParam };
-    console.log(updateParam);
+  if (!req.file) {
+    throw HttpError(400, 'Avatar file is required');
   }
 
-  if (!updateParam) throw new HttpError({ message: 'Missing field' });
+  const user = await User.findByIdAndUpdate(id, {
+    ...req.body,
+    avatarURL: req.file.path,
+  });
 
-  const user = await User.findByIdAndUpdate(id, updateParam);
-  console.log(user);
   if (!user) throw new HttpError('User not found');
 
-  const { username, email, phone, avatarURL, skype, birthday } = user;
-  res.json({
-    status: 'success',
-    message: 'User updated',
-    user: {
+  const updatedUser = await User.findById(id);
+  const { username, email, phone, avatarURL, skype, birthday } = updatedUser;
+
+  res.status(200).json({
+    data: {
       username,
       email,
       phone,
@@ -35,6 +32,7 @@ const update = async (req, res) => {
       skype,
       birthday,
     },
+    message: `User with ID: ${id} was updated`,
   });
 };
 
