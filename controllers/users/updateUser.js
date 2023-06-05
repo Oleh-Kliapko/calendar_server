@@ -9,13 +9,9 @@ const update = async (req, res) => {
 
   if (!req.body) throw new HttpError({ message: 'Missing field' });
 
-  if (!req.file) {
-    throw HttpError(400, 'Avatar file is required');
-  }
-
   const user = await User.findByIdAndUpdate(id, {
     ...req.body,
-    avatarURL: req.file.path,
+    avatarURL: req?.file?.path || '',
   });
 
   if (!user) throw new HttpError('User not found');
