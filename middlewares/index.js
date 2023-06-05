@@ -3,4 +3,5 @@ module.exports = {
   isValidId: require('./isValidID'),
   authenticate: require('./authenticate'),
   passportConfig: require('./passportConfig'),
+  uploadCloud: require('./uploadAvatar'),
 };

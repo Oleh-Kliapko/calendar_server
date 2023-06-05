@@ -7,6 +7,7 @@ const {
   authenticate,
   isValidId,
   passportConfig,
+  uploadCloud,
 } = require('../../middlewares');
 const {
   user: {
@@ -53,6 +54,14 @@ router.patch(
   authenticate,
   isValidId,
   validateBody(validationCurrentUser),
+  ctrl.updateUser,
+);
+
+// route to change avatar
+router.patch(
+  '/update',
+  authenticate,
+  uploadCloud.single('avatarURL'),
   ctrl.updateUser,
 );
 
