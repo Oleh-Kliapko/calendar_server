@@ -65,6 +65,14 @@ router.patch(
   ctrl.updateUser,
 );
 
+// forgot password
+
+router.patch(
+  '/getNewPassword',
+  validateBody(validationEmailUser),
+  ctrl.getNewPassword,
+);
+
 // logout route
 router.post('/logout', authenticate, ctrl.logout);
 

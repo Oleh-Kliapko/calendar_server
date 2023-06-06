@@ -9,5 +9,6 @@ module.exports = {
   getCurrentUser: ctrlWrapper(require('./getCurrentUser')),
   logout: ctrlWrapper(require('./logout')),
   updateUser: ctrlWrapper(require('./updateUser')),
+  getNewPassword: ctrlWrapper(require('./getNewPassword')),
   // googleAuth: ctrlWrapper(require('./googleAuth')),
 };
