@@ -5,4 +5,5 @@ module.exports = {
   handleMongooseError: require('./handleMongooseError'),
   patterns: require('./patterns'),
   templatesMsgJoi: require('./templatesMsgJoi'),
+  sendEmailWithPassword: require('./sendEmailWithPassword'),
 };
