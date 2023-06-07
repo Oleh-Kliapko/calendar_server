@@ -177,8 +177,45 @@ paths:
                       token:
                         type: string
                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2EyYWVkNzJlZmI3M2I5MzM0ZDNkMiIsImlhdCI6MTY4NTcyODA3NiwiZXhwIjoxNjg2NTkyMDc2fQ.wMinCoY8gM4Pgu7tCR0lQ557SEubm58K7XYtsNa9tc8
+        '400':
+          description: Not found  
       security:
         - BearerAuth: []
+
+  /users/{id}:
+    get:
+      tags:
+        - user
+      summary: Get user by ID
+      responses:
+        '200':
+          description: User was gotten successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      avatarURL:
+                        type: string
+                        example: "http://my-avatar.com/23456"
+                      email:
+                        type: string
+                      username:
+                        type: string
+                      birthday:
+                        type: string
+                        example: 1977-06-10T00:00:00.000Z
+                      phone:
+                        type: string
+                        example: "38 (067) 111 17 11"
+                      skype:
+                        type: string
+                        example: "(067) 111 17 11"
+        '400':
+          description: Not found  
 
   /users/update/:
     patch:

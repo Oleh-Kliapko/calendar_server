@@ -5,7 +5,7 @@ const googleAuth = require('../../controllers/users/googleAuth');
 const {
   validateBody,
   authenticate,
-  // isValidId,
+  isValidId,
   passportConfig,
   uploadCloud,
 } = require('../../middlewares');
@@ -45,6 +45,7 @@ router.post(
 );
 
 router.get('/current', authenticate, ctrl.getCurrentUser);
+router.get('/:id', isValidId, ctrl.getById);
 
 router.patch(
   '/update',

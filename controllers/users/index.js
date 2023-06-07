@@ -7,7 +7,7 @@ module.exports = {
   login: ctrlWrapper(require('./login')),
   loginWithToken: ctrlWrapper(require('./loginWithToken')),
   getCurrentUser: ctrlWrapper(require('./getCurrentUser')),
+  getById: ctrlWrapper(require('./getById')),
   logout: ctrlWrapper(require('./logout')),
   updateUser: ctrlWrapper(require('./updateUser')),
-  // googleAuth: ctrlWrapper(require('./googleAuth')),
 };
