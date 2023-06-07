@@ -47,6 +47,13 @@ const validationEmailUser = Joi.object({
     .messages(templatesMsgJoi('email')),
 });
 
+// password validation user
+
+const validationPasswordUser = Joi.object({
+  password1: Joi.string().pattern(patterns.passwordPattern).required(),
+  password2: Joi.string().pattern(patterns.passwordPattern).required(),
+});
+
 // // validation of current user
 const validationCurrentUser = Joi.object({
   username: Joi.string()
@@ -139,4 +146,5 @@ module.exports = {
   validationLoginUser,
   validationEmailUser,
   validationCurrentUser,
+  validationPasswordUser,
 };
