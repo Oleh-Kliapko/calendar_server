@@ -11,20 +11,20 @@ const update = async (req, res) => {
 
   const user = await User.findByIdAndUpdate(id, {
     ...req.body,
-    avatarURL: req?.file?.path || '',
+    avatarUrl: req?.file?.path || '',
   });
 
   if (!user) throw new HttpError('User not found');
 
   const updatedUser = await User.findById(id);
-  const { username, email, phone, avatarURL, skype, birthday } = updatedUser;
+  const { username, email, phone, avatarUrl, skype, birthday } = updatedUser;
 
   res.status(200).json({
     data: {
       username,
       email,
       phone,
-      avatarURL,
+      avatarUrl,
       skype,
       birthday,
     },

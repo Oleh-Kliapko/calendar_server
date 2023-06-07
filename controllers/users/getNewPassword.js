@@ -18,13 +18,6 @@ module.exports = async (req, res) => {
   console.log('newPassword', newPassword);
   const hashPassword = await bcrypt.hash(newPassword, 10);
 
-  //   const newUser = await User.create({
-  //     ...req.body,
-  //     email,
-
-  //     password: hashPassword,
-  //   });
-
   const newUser = await User.findOneAndUpdate(
     { email },
     {

@@ -8,8 +8,8 @@ sgMail.setApiKey(SENDGRID_API_KEY);
 module.exports = async (email, newPassword) => {
   const newEmail = {
     to: email,
-    subject: 'Verify your email, please',
-    html: `<h3>We send you your new password ${newPassword}</h3>`,
+    subject: 'Safe your password, please',
+    html: `<h3>We sent you your new password - ${newPassword}</h3>`,
     from: 'walletservice2023@gmail.com',
   };
 

@@ -38,6 +38,13 @@ const validationLoginUser = Joi.object({
     .messages(templatesMsgJoi('email')),
 });
 
+// password validation user
+
+const validationPasswordUser = Joi.object({
+  password1: Joi.string().pattern(patterns.passwordPattern).required(),
+  password2: Joi.string().pattern(patterns.passwordPattern).required(),
+});
+
 // validation email to resend email letter for verification
 const validationEmailUser = Joi.object({
   email: Joi.string()
@@ -49,9 +56,9 @@ const validationEmailUser = Joi.object({
 
 // validation of current user
 const validationCurrentUser = Joi.object({
-  avatarURL: Joi.string()
+  avatarUrl: Joi.string()
     .pattern(patterns.urlPattern)
-    .messages(templatesMsgJoi('avatarURL')),
+    .messages(templatesMsgJoi('avatarUrl')),
   username: Joi.string()
     .pattern(patterns.namePattern)
     .max(32)
@@ -72,7 +79,7 @@ const validationCurrentUser = Joi.object({
 // ====================================================
 const userSchema = new Schema(
   {
-    avatarURL: {
+    avatarUrl: {
       type: String,
       match: patterns.urlPattern,
       default: '',
@@ -144,4 +151,5 @@ module.exports = {
   validationLoginUser,
   validationEmailUser,
   validationCurrentUser,
+  validationPasswordUser,
 };

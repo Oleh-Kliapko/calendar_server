@@ -21,13 +21,13 @@ module.exports = {
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: EXPIRES_TOKEN });
 
     const user = await User.findByIdAndUpdate(id, { token });
-    const { avatarURL, username, email, birthday, phone, skype } = user;
+    const { avatarUrl, username, email, birthday, phone, skype } = user;
 
     const redirectURL = `https://oleh-kliapko.github.io/GooseTrack_front/login?token=${token}`;
 
     return res.status(200).json({
       data: {
-        avatarURL,
+        avatarUrl,
         username,
         email,
         birthday,

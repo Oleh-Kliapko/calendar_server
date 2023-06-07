@@ -24,7 +24,7 @@ passport.use(
           const hashPassword = await bcrypt.hash(nanoid(), 10);
 
           user = await User.create({
-            avatarURL: '',
+            avatarUrl: '',
             email,
             username: given_name,
             password: hashPassword,

@@ -9,11 +9,11 @@ module.exports = async (req, res) => {
 
   if (!user) throw HttpError(401, 'Please reload the page');
 
-  const { avatarURL, username, email, birthday, phone, skype } = user;
+  const { avatarUrl, username, email, birthday, phone, skype } = user;
 
   res.status(200).json({
     data: {
-      avatarURL,
+      avatarUrl,
       username,
       email,
       birthday,
