@@ -15,6 +15,7 @@ const {
     validationLoginUser,
     validationRegistrationUser,
     validationCurrentUser,
+    validationPasswordUser,
   },
 } = require('../../models');
 
@@ -53,6 +54,23 @@ router.patch(
   validateBody(validationCurrentUser),
   uploadCloud.single('avatarURL'),
   ctrl.updateUser,
+);
+
+// forgot password
+
+router.patch(
+  '/getNewPassword',
+  validateBody(validationEmailUser),
+  ctrl.getNewPassword,
+);
+
+// create new password
+
+router.patch(
+  '/createNewPassword',
+  authenticate,
+  validateBody(validationPasswordUser),
+  ctrl.createNewPassword,
 );
 
 router.post('/logout', authenticate, ctrl.logout);
