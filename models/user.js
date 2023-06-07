@@ -52,12 +52,10 @@ const validationCurrentUser = Joi.object({
   username: Joi.string()
     .pattern(patterns.namePattern)
     .max(32)
-    .required()
     .messages(templatesMsgJoi('username')),
   email: Joi.string()
     .email({ minDomainSegments: 2 })
     .pattern(patterns.emailPattern)
-    .required()
     .messages(templatesMsgJoi('email')),
   birthday: Joi.date().messages(templatesMsgJoi('birthday')),
   phone: Joi.string()
