@@ -13,12 +13,12 @@ module.exports = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw HttpError(401, 'User is not found. Please check email');
+    throw HttpError(404, 'User is not found. Please check email');
   }
 
   if (!user.verify) {
     throw HttpError(
-      401,
+      403,
       'Email is not verified yet. Check email box for verification',
     );
   }
