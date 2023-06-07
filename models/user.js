@@ -47,11 +47,8 @@ const validationEmailUser = Joi.object({
     .messages(templatesMsgJoi('email')),
 });
 
-// validation of current user
+// // validation of current user
 const validationCurrentUser = Joi.object({
-  avatarURL: Joi.string()
-    .pattern(patterns.urlPattern)
-    .messages(templatesMsgJoi('avatarURL')),
   username: Joi.string()
     .pattern(patterns.namePattern)
     .max(32)

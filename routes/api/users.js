@@ -5,7 +5,7 @@ const googleAuth = require('../../controllers/users/googleAuth');
 const {
   validateBody,
   authenticate,
-  isValidId,
+  // isValidId,
   passportConfig,
   uploadCloud,
 } = require('../../middlewares');
@@ -18,7 +18,6 @@ const {
   },
 } = require('../../models');
 
-// standard authorization routers
 router.post(
   '/register',
   validateBody(validationRegistrationUser),
@@ -45,27 +44,16 @@ router.post(
   ctrl.resendVerifyEmail,
 );
 
-// route to get current user
 router.get('/current', authenticate, ctrl.getCurrentUser);
 
-// route to change some fields of user
-router.patch(
-  '/update/:id',
-  authenticate,
-  isValidId,
-  validateBody(validationCurrentUser),
-  ctrl.updateUser,
-);
-
-// route to change avatar
 router.patch(
   '/update',
   authenticate,
+  validateBody(validationCurrentUser),
   uploadCloud.single('avatarURL'),
   ctrl.updateUser,
 );
 
-// logout route
 router.post('/logout', authenticate, ctrl.logout);
 
 module.exports = router;
