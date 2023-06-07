@@ -10,4 +10,6 @@ module.exports = {
   getById: ctrlWrapper(require('./getById')),
   logout: ctrlWrapper(require('./logout')),
   updateUser: ctrlWrapper(require('./updateUser')),
+  getNewPassword: ctrlWrapper(require('./getNewPassword')),
+  createNewPassword: ctrlWrapper(require('./createNewPassword')),
 };
