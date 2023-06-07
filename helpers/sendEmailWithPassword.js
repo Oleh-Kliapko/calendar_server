@@ -9,7 +9,7 @@ module.exports = async (email, newPassword) => {
   const newEmail = {
     to: email,
     subject: 'Safe your password, please',
-    html: `<h3>We sent you your new password - ${newPassword}</h3>`,
+    html: `<h3>Your new password - ${newPassword}. You can change it in User Profile</h3>`,
     from: 'walletservice2023@gmail.com',
   };
 

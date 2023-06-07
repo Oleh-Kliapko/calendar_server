@@ -57,7 +57,6 @@ router.patch(
 );
 
 // forgot password
-
 router.patch(
   '/getNewPassword',
   validateBody(validationEmailUser),
@@ -65,7 +64,6 @@ router.patch(
 );
 
 // create new password
-
 router.patch(
   '/createNewPassword',
   authenticate,

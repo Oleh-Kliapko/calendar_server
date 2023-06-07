@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const {
   user: { User },
 } = require('../../models');
-const { HttpError } = require('../../helpers');
+const { HttpError, sendEmailWithPassword } = require('../../helpers');
 
 module.exports = async (req, res) => {
   const { id } = req.user;
@@ -16,14 +16,17 @@ module.exports = async (req, res) => {
       ...req.body,
       password: hashPassword,
     });
+
+    await sendEmailWithPassword(user.email, password1);
+
     if (!user) {
-      throw HttpError(401, 'User is not found. Please check email');
+      throw HttpError(404, 'User is not found. Please check email');
     }
   } else {
-    throw HttpError(401, 'Your password is not the same, please re-enter');
+    throw HttpError(401, 'Password is not the same, please re-enter');
   }
 
   return res
     .status(201)
-    .json({ message: 'Your password has been successfully changed' });
+    .json({ message: 'Password has been successfully changed' });
 };

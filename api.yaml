@@ -114,9 +114,15 @@ paths:
                       token:
                         type: string
                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2EyYWVkNzJlZmI3M2I5MzM0ZDNkMiIsImlhdCI6MTY4NTcyODA3NiwiZXhwIjoxNjg2NTkyMDc2fQ.wMinCoY8gM4Pgu7tCR0lQ557SEubm58K7XYtsNa9tc8
+        '404':
+          description:
+            'User is not found. Please check email'
+        '403':
+          description:
+            'Email is not verified yet. Check email box for verification'
         '401':
           description:
-            'User is not found / Email is not verified / Password is incorrect'
+            'Password is incorrect. Please check'
 
   /users/logout:
     post:
@@ -260,6 +266,98 @@ paths:
                     example: "User with ID: 647a2aed72efb73b9334d3d2 updated"
       security:
         - BearerAuth: []
+
+  /users/getNewPassword/:
+    patch:
+      tags:
+        - user
+      summary: Send new user password to email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: example@mail.uk.com
+              required:
+                - email
+      responses:
+        '201':
+          description: User got new password to email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'New password has been created for user: example@mail.uk.com'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'User is not found. Please check email'
+
+  /users/createNewPassword/:
+    patch:
+      tags:
+        - user
+      summary: Change user password and send new one to email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password1:
+                  type: string
+                  example: Ro134908
+                password2:
+                  type: string
+                  example: Ro134908
+              required:
+                - password1
+                - password2
+      responses:
+        '201':
+          description: User changed his password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Password has been successfully changed'
+        '401':
+          description: Different passwords were typed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Password is not the same, please re-enter'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'User is not found. Please check email'
 
   /users/google:
     get:

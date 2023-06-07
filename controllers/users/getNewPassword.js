@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
-    throw HttpError(401, 'User is not found. Please check email');
+    throw HttpError(404, 'User is not found. Please check email');
   }
 
   const newPassword = nanoid();
@@ -29,6 +29,6 @@ module.exports = async (req, res) => {
     data: {
       email,
     },
-    message: `User with email: ${newUser.email} has been created new password`,
+    message: `New password has been created for user: ${newUser.email}`,
   });
 };
