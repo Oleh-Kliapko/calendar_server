@@ -23,20 +23,25 @@ module.exports = {
     const user = await User.findByIdAndUpdate(id, { token });
     const { avatarURL, username, email, birthday, phone, skype } = user;
 
-    const redirectURL = `https://oleh-kliapko.github.io/GooseTrack_front/login?token=${token}`;
+    // res.redirect(
+    //   `https://oleh-kliapko.github.io/GooseTrack_front?token=${token}`,
+    // );
+    res.redirect(
+      `https://oleh-kliapko.github.io/GooseTrack_front/google?token=${token}`,
+    );
 
-    return res.status(200).json({
-      data: {
-        avatarURL,
-        username,
-        email,
-        birthday,
-        phone,
-        skype,
-        token,
-      },
-      message: `User with email: ${email} has been logged in through Google Auth`,
-      redirectURL,
-    });
+    // return res.status(200).json({
+    //   data: {
+    //     avatarURL,
+    //     username,
+    //     email,
+    //     birthday,
+    //     phone,
+    //     skype,
+    //     token,
+    //   },
+    //   message: `User with email: ${email} has been logged in through Google Auth`,
+    //   redirectURL,
+    // });
   },
 };
