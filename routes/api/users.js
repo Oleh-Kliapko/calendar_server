@@ -51,7 +51,7 @@ router.get('/:id', isValidId, ctrl.getById);
 router.patch(
   '/update',
   authenticate,
-  validateBody(validationCurrentUser),
+  // validateBody(validationCurrentUser),
   uploadCloud.single('avatarURL'),
   ctrl.updateUser,
 );

@@ -76,7 +76,6 @@ const userSchema = new Schema(
   {
     avatarURL: {
       type: String,
-      match: patterns.urlPattern,
       default: '',
     },
     password: {
