@@ -41,12 +41,10 @@ const reviewSchema = new Schema(
     username: {
       type: String,
       ref: 'user',
-      required: [true, 'User name is required'],
     },
     avatarURL: {
       type: String,
       ref: 'user',
-      required: [true, 'Avatar is required'],
     },
   },
   { versionKey: false, timestamps: true },
