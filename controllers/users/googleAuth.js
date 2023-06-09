@@ -22,7 +22,7 @@ module.exports = {
     await User.findByIdAndUpdate(id, { token });
 
     res.redirect(
-      `https://github.com/Oleh-Kliapko/GooseTrack_front?token=${token}`,
+      `https://oleh-kliapko.github.io/GooseTrack_front?token=${token}`,
     );
   },
 };
