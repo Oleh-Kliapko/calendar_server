@@ -529,6 +529,12 @@ paths:
                       owner:
                         type: string
                         description: ID of the reviewer (user)
+                      username:
+                        type: string
+                        description: name of the reviewer (user)     
+                      avatarURL:
+                        type: string
+                        description: URL of user avatar that saved in Cloudinary
                       createdAt:
                         type: string
                         format: date-time
@@ -614,6 +620,12 @@ paths:
                       owner:
                         type: string
                         description: ID of the reviewer (user)
+                      username:
+                        type: string
+                        description: name of the reviewer (user)     
+                      avatarURL:
+                        type: string
+                        description: URL of user avatar that saved in Cloudinary                        
                       createdAt:
                         type: string
                         format: date-time
@@ -1024,6 +1036,12 @@ components:
                   owner:
                     type: string
                     example: 647a2aed72efb73b9334d3d2
+                  username:
+                    type: string
+                    example: Selena      
+                  avatarURL:
+                    type: string
+                    example: https://res.cloudinary.com/dfxe5fcku/image/upload/v1686240479/nbsmx7q1zobroeuozef7.jpg                                       
                   createdAt:
                     type: string
                     example: 2023-06-03T06:21:30.884Z

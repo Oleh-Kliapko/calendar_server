@@ -17,13 +17,15 @@ module.exports = async (req, res) => {
     throw HttpError(404, 'Not found');
   }
 
-  const { stars, comment, owner, createdAt } = review;
+  const { stars, comment, owner, username, avatarURL, createdAt } = review;
 
   return res.status(200).json({
     data: {
       stars,
       comment,
       owner,
+      username,
+      avatarURL,
       createdAt,
     },
   });
