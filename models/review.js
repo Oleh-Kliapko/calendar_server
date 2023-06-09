@@ -36,7 +36,17 @@ const reviewSchema = new Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'user',
-      required: [true, 'User is required'],
+      required: [true, 'User ID is required'],
+    },
+    username: {
+      type: String,
+      ref: 'user',
+      required: [true, 'User name is required'],
+    },
+    avatarURL: {
+      type: String,
+      ref: 'user',
+      required: [true, 'Avatar is required'],
     },
   },
   { versionKey: false, timestamps: true },

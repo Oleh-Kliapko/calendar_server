@@ -14,7 +14,7 @@ const {
     validationEmailUser,
     validationLoginUser,
     validationRegistrationUser,
-    validationCurrentUser,
+    // validationCurrentUser,
     validationPasswordUser,
   },
 } = require('../../models');
