@@ -23,7 +23,7 @@ const storage = new CloudinaryStorage({
   },
 });
 
-const uploadCloud = multer({
+module.exports = multer({
   storage,
   fileFilter: (req, file, cb) => {
     if (!allowedFormats.includes(file.mimetype.split('/')[1])) {
@@ -37,5 +37,3 @@ const uploadCloud = multer({
     }
   },
 });
-
-module.exports = uploadCloud;
