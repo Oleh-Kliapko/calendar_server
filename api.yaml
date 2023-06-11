@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Goose Track Team Project
+  title: Goose Track Project of Team "Push the code"
   description: |-
     Team project "Goose Track" by Swagger OpenAPI 3.0
   version: 1.0.0
@@ -13,7 +13,9 @@ tags:
   - name: user
     description: register, login, logout and others operations with User
   - name: review
-    description: Add new review and get reviews
+    description: Add, delete nad get reviews
+  - name: task
+    description: Add, delete nad get tasks
 
 paths:
   /users/register:
@@ -700,6 +702,23 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/GetTask'
+                      boards:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            category:
+                              type: string
+                              enum:
+                                - to-do
+                                - in-progress
+                                - done
+                            owner:
+                              type: string
+                            tasks:
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/GetBoard'
       security:
         - BearerAuth: []
 
@@ -1072,5 +1091,21 @@ components:
         owner:
           type: string
         createdAt:
+          type: string
+          format: date-time
+    GetBoard:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        start:
+          type: string
+        end:
+          type: string
+        priority:
+          type: string
+        date:
           type: string
           format: date-time
