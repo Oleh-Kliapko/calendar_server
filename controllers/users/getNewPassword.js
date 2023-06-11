@@ -26,9 +26,6 @@ module.exports = async (req, res) => {
   await sendEmailWithPassword(email, newPassword);
 
   return res.status(201).json({
-    data: {
-      email,
-    },
-    message: `New password has been created for user: ${newUser.email}`,
+    message: `New password has been sent to email: ${newUser.email}`,
   });
 };

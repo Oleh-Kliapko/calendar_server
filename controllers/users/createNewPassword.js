@@ -28,5 +28,7 @@ module.exports = async (req, res) => {
 
   return res
     .status(201)
-    .json({ message: 'Password has been successfully changed' });
+    .json({
+      message: 'Password has been successfully changed and sent to user email',
+    });
 };
