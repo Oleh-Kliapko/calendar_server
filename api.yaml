@@ -674,7 +674,7 @@ paths:
   /tasks:
     get:
       tags:
-        - tasks
+        - task
       summary: Get all tasks
       parameters:
         - name: month
@@ -724,7 +724,7 @@ paths:
 
     post:
       tags:
-        - tasks
+        - task
       summary: Add a new task
       requestBody:
         required: true
@@ -792,7 +792,7 @@ paths:
   /tasks/{id}:
     patch:
       tags:
-        - tasks
+        - task
       summary: Update a tasks by ID
       parameters:
         - name: id
@@ -875,7 +875,7 @@ paths:
 
     delete:
       tags:
-        - tasks
+        - task
       summary: Delete a task by ID
       parameters:
         - name: id
