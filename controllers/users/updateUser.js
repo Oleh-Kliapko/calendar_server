@@ -6,13 +6,13 @@ const { HttpError } = require('../../helpers');
 const reviewsUpd = require('../../helpers/reviewsUpd');
 
 module.exports = async (req, res) => {
-  const { id } = req.user;
+  const { id, avatarURL: oldAvatar } = req.user;
 
   if (!req.body) throw new HttpError({ message: 'Missing field' });
 
   const user = await User.findByIdAndUpdate(id, {
     ...req.body,
-    avatarURL: req?.file?.path || '',
+    avatarURL: req?.file?.path || oldAvatar,
   });
 
   if (!user) throw new HttpError('User not found');
