@@ -26,9 +26,7 @@ module.exports = async (req, res) => {
     throw HttpError(401, 'Password is not the same, please re-enter');
   }
 
-  return res
-    .status(201)
-    .json({
-      message: 'Password has been successfully changed and sent to user email',
-    });
+  return res.status(201).json({
+    message: 'Password has been successfully changed and sent to user email',
+  });
 };
