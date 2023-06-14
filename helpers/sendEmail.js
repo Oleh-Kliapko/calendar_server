@@ -60,14 +60,15 @@ module.exports = async (email, verificationToken) => {
           </style>
         </head>
         <body>
-          <h3>Email Verification</h3>
+          <h3>The Goose Track welcomes you!</h3>
+          <div class="image-container">
+            <img src="https://oleh-kliapko.github.io/GooseTrack_front/static/media/goose2x.16fd9b28530c95574467.png" alt="Goose Flying" />
+          </div>
           <p>Please click the button below to verify your email:</p>
           <a class="verification-link" target="_blank" href="${BASE_URL}/api/users/verify/${verificationToken}">
             <p class="verification-text">Verify Email</p>
           </a>
-          <div class="image-container">
-            <img src="https://oleh-kliapko.github.io/GooseTrack_front/static/media/goose2x.16fd9b28530c95574467.png" alt="Goose Flying" />
-          </div>
+
         </body>
       </html>
     `,

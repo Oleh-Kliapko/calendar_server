@@ -17,8 +17,6 @@ module.exports = async (req, res) => {
       password: hashPassword,
     });
 
-    await sendEmailWithPassword(user.email, password1);
-
     if (!user) {
       throw HttpError(404, 'User is not found. Please check email');
     }
@@ -27,6 +25,6 @@ module.exports = async (req, res) => {
   }
 
   return res.status(201).json({
-    message: 'Password has been successfully changed and sent to user email',
+    message: 'Password has been successfully changed',
   });
 };

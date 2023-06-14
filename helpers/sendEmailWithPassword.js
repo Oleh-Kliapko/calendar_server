@@ -21,7 +21,7 @@ module.exports = async (email, newPassword) => {
             
             h3 {
               color: #333;
-              font-size: 24px;
+              font-size: 20px;
               margin-bottom: 10px;
             }
             
@@ -45,7 +45,7 @@ module.exports = async (email, newPassword) => {
           </style>
         </head>
         <body>
-          <h3>Your new password - ${newPassword}.</h3>
+          <h3>Your new password: ${newPassword}.</h3>
           <p> Next time sign in with it </p>
           <p>You can change it in the User Profile.</p>
           <div class="image-container">
